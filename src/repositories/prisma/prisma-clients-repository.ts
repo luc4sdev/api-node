@@ -91,7 +91,7 @@ export class PrismaClientsRepository implements ClientsRepository {
         })
 
         if (addressExist) {
-            const address = await prisma.address.update({
+            await prisma.address.update({
                 where: {
                     id: addressExist.id
                 },

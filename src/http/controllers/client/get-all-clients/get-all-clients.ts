@@ -1,4 +1,3 @@
-
 import { makeGetAllClientsUseCase } from '@/use-cases/factories/client/make-get-all-clients-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
