@@ -1,12 +1,12 @@
 import { ClientsRepository } from "@/repositories/clients-repository";
-import { $Enums, Client } from "@prisma/client";
+import { Client } from "@prisma/client";
 
 export interface CreateClientUseCaseRequest {
     name: string
     type: "FISICA" | "JURIDICA"
     document: string
     birthDate: string
-    active: boolean
+    active?: boolean
     address: {
         street: string;
         number: string;

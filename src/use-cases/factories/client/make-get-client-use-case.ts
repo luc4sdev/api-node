@@ -1,5 +1,5 @@
 import { PrismaClientsRepository } from '@/repositories/prisma/prisma-clients-repository';
-import { GetClientUseCase } from '../client/get-client/get-client';
+import { GetClientUseCase } from '../../client/get-client/get-client';
 
 
 export function makeGetClientUseCase() {

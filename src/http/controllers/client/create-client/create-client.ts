@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { makeCreateClientUseCase } from '@/use-cases/factories/make-create-client-use-case';
+import { makeCreateClientUseCase } from '@/use-cases/factories/client/make-create-client-use-case';
 import { z } from "zod"
 
 export async function createClient(request: FastifyRequest, reply: FastifyReply) {
@@ -18,17 +18,17 @@ export async function createClient(request: FastifyRequest, reply: FastifyReply)
         document: z.string(),
         birthDate: z.string(),
         address: AddressSchema,
-        active: z.boolean().optional()
+        active: z.boolean()
     })
 
-    const { name, type, document, birthDate, address } = registerBodySchema.parse(request.body)
+    const { name, type, document, birthDate, address, active } = registerBodySchema.parse(request.body)
 
 
     try {
 
         const createClientUseCase = makeCreateClientUseCase()
 
-        await createClientUseCase.execute({ name, type, document, birthDate, address, active: false })
+        await createClientUseCase.execute({ name, type, document, birthDate, address, active })
 
     } catch (err) {
         throw err
