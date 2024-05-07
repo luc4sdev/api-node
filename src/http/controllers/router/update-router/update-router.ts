@@ -2,7 +2,7 @@ import { makeUpdateRouterUseCase } from '@/use-cases/factories/router/make-updat
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from "zod"
 
-const registerBodySchema = z.object({
+export const updateRouterBodySchema = z.object({
     id: z.string().uuid(),
     ipAddress: z.string().optional(),
     ipv6Address: z.string().optional(),
@@ -14,7 +14,7 @@ const registerBodySchema = z.object({
 
 export async function updateRouter(request: FastifyRequest, reply: FastifyReply) {
 
-    const { id, ipAddress, ipv6Address, brand, model, active, clientsIds } = registerBodySchema.parse(request.body)
+    const { id, ipAddress, ipv6Address, brand, model, active, clientsIds } = updateRouterBodySchema.parse(request.body)
 
 
     try {

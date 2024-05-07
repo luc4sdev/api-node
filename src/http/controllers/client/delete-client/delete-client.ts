@@ -3,13 +3,13 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from "zod"
 
 
-const registerBodySchema = z.object({
+export const deleteClientBodySchema = z.object({
     id: z.string().uuid(),
 })
 
 export async function deleteClient(request: FastifyRequest, reply: FastifyReply) {
 
-    const { id } = registerBodySchema.parse(request.body)
+    const { id } = deleteClientBodySchema.parse(request.body)
 
 
     try {

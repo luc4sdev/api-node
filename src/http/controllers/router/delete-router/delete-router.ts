@@ -2,13 +2,13 @@ import { makeDeleteRouterUseCase } from '@/use-cases/factories/router/make-delet
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from "zod"
 
-const registerBodySchema = z.object({
+export const deleteRouterBodySchema = z.object({
     id: z.string().uuid(),
 })
 
 export async function deleteRouter(request: FastifyRequest, reply: FastifyReply) {
 
-    const { id } = registerBodySchema.parse(request.body)
+    const { id } = deleteRouterBodySchema.parse(request.body)
 
 
     try {

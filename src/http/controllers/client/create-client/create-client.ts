@@ -10,7 +10,7 @@ const AddressSchema = z.object({
     city: z.string(),
 });
 
-export const registerBodySchema = z.object({
+export const createClientBodySchema = z.object({
     name: z.string(),
     type: z.enum(['FISICA', 'JURIDICA']),
     document: z.string(),
@@ -21,7 +21,7 @@ export const registerBodySchema = z.object({
 
 export async function createClient(request: FastifyRequest, reply: FastifyReply) {
 
-    const { name, type, document, birthDate, address, active } = registerBodySchema.parse(request.body)
+    const { name, type, document, birthDate, address, active } = createClientBodySchema.parse(request.body)
 
 
     try {

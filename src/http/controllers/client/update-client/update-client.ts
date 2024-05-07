@@ -11,7 +11,7 @@ const AddressSchema = z.object({
     city: z.string().optional(),
 });
 
-const registerBodySchema = z.object({
+export const updateClientBodySchema = z.object({
     id: z.string().uuid(),
     name: z.string().optional(),
     type: z.enum(['FISICA', 'JURIDICA']).optional(),
@@ -23,7 +23,7 @@ const registerBodySchema = z.object({
 
 export async function updateClient(request: FastifyRequest, reply: FastifyReply) {
 
-    const { id, name, type, document, birthDate, address, active } = registerBodySchema.parse(request.body)
+    const { id, name, type, document, birthDate, address, active } = updateClientBodySchema.parse(request.body)
 
 
     try {
