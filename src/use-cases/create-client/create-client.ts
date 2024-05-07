@@ -6,14 +6,14 @@ export interface CreateClientUseCaseRequest {
     type: $Enums.ClientType
     document: string
     birthDate: string
-    address?: {
+    address: {
         street: string;
         number: string;
         cep: string;
         neighborhood: string;
         city: string;
     }
-    router?: {
+    router: {
         ipAddress: string;
         ipv6Address: string;
         brand: string;

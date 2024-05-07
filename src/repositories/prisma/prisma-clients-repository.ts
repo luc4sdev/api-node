@@ -22,7 +22,12 @@ export class PrismaClientsRepository implements ClientsRepository {
                 name: d.name,
                 type: d.type,
                 document: d.document,
-                birthDate: d.birthDate
+                birthDate: d.birthDate,
+                address: {
+                    create: {
+
+                    }
+                }
             }
         })
 
