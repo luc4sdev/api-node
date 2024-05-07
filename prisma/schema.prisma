@@ -13,39 +13,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String    @id @default(uuid())
-  name          String
-  email         String    @unique
-  password_hash String
-  created_at    DateTime  @default(now())
-  checkIns      CheckIn[]
-
-  @@map("users")
+enum ClientType {
+  FISICA
+  JURIDICA
 }
 
-model CheckIn {
-  id           String    @id @default(uuid())
-  created_at   DateTime  @default(now())
-  validated_at DateTime?
+model Client {
+  id        String     @id @default(uuid())
+  name      String
+  type      ClientType
+  document  String
+  birthDate String
+  active    Boolean?   @default(false)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  deleted   Boolean?   @default(false)
 
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
+  address   Address @relation(fields: [addressId], references: [id])
+  addressId String  @map("address_id")
 
-  gym    Gym    @relation(fields: [gym_id], references: [id])
-  gym_id String
+  router   Router @relation(fields: [routerId], references: [id])
+  routerId String @map("router_id")
 
-  @@map("check_ins")
+  @@map("clients")
 }
 
-model Gym {
-  id          String    @id @default(uuid())
-  title       String
-  description String?
-  phone       String?
-  latitude    Decimal
-  longitude   Decimal
-  checkIns    CheckIn[]
+model Address {
+  id           String @id @default(uuid())
+  street       String
+  number       String
+  cep          String
+  neighborhood String
+  city         String
 
-  @@map("gyms")
+  client Client[]
+
+  @@map("addresses")
+}
+
+model Router {
+  id          String   @id @default(uuid())
+  ipAddress   String
+  ipv6Address String
+  brand       String
+  model       String
+  active      Boolean? @default(false)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  deleted     Boolean? @default(false)
+
+  client Client[]
+
+  @@map("routers")
 }

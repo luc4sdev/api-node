@@ -1,16 +1,15 @@
 import { compare } from 'bcryptjs';
-import { RegisterUseCase } from './register';
+import { CreateClientUseCase } from './create-client';
 import { expect, describe, it, beforeEach } from 'vitest'
-import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users.repository';
-import { UserAlreadyExistsError } from './errors/user-already-exists-error';
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-clients.repository'; ';
 
 let usersRepository: InMemoryUsersRepository
-let sut: RegisterUseCase
+let sut: CreateClientUseCase
 
 describe('Register Use Case', () => {
     beforeEach(() => {
         usersRepository = new InMemoryUsersRepository()
-        sut = new RegisterUseCase(usersRepository)
+        sut = new CreateClientUseCase(usersRepository)
     })
 
     it('should hash user password upon registration', async () => {
