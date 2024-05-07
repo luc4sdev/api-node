@@ -32,8 +32,8 @@ model Client {
   address   Address @relation(fields: [addressId], references: [id])
   addressId String  @map("address_id")
 
-  router   Router @relation(fields: [routerId], references: [id])
-  routerId String @map("router_id")
+  router   Router? @relation(fields: [routerId], references: [id])
+  routerId String? @map("router_id")
 
   @@map("clients")
 }

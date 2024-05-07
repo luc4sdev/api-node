@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { Client, Prisma } from '@prisma/client'
+import { Address, Client, Prisma } from '@prisma/client'
 import { ClientsRepository } from "../clients-repository";
-import { CreateClientUseCaseRequest } from "@/use-cases/create-client/create-client";
+import { CreateClientUseCaseRequest } from "@/use-cases/client/create-client/create-client";
 
 
 export class PrismaClientsRepository implements ClientsRepository {
@@ -16,18 +16,20 @@ export class PrismaClientsRepository implements ClientsRepository {
     }
 
 
-    async create(d: CreateClientUseCaseRequest) {
+    async create(clientToBeCreated: CreateClientUseCaseRequest) {
+
+        const address = await prisma.address.create({
+            data: clientToBeCreated.address
+        })
+
         const client = await prisma.client.create({
             data: {
-                name: d.name,
-                type: d.type,
-                document: d.document,
-                birthDate: d.birthDate,
-                address: {
-                    create: {
-
-                    }
-                }
+                name: clientToBeCreated.name,
+                type: clientToBeCreated.type,
+                document: clientToBeCreated.document,
+                birthDate: clientToBeCreated.birthDate,
+                active: clientToBeCreated.active,
+                addressId: address.id,
             }
         })
 

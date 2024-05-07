@@ -1,5 +1,5 @@
-import { CreateClientUseCaseRequest } from "@/use-cases/create-client/create-client";
-import { Prisma, Client } from "@prisma/client";
+import { CreateClientUseCaseRequest } from "@/use-cases/client/create-client/create-client";
+import { Prisma, Client, Address } from "@prisma/client";
 
 export interface ClientsRepository {
     findById(id: string): Promise<Client | null>
