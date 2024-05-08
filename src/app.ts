@@ -15,8 +15,8 @@ app.setValidatorCompiler(validatorCompiler)
 app.register(fastifySwagger, {
     openapi: {
         info: {
-            title: 'Clients and Routers App',
-            description: 'Full-stack App.',
+            title: 'Routers App',
+            description: 'Full-Stack App.',
             version: '1.0.0',
         }
     },
