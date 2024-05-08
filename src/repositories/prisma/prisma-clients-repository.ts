@@ -78,34 +78,26 @@ export class PrismaClientsRepository implements ClientsRepository {
 
     async update(clientToBeUpdated: UpdateClientUseCaseRequest) {
 
-        const addressExist = await prisma.address.findFirst({
+        const clientExists = await prisma.client.findUnique({
             where: {
-                AND: [
-                    { street: clientToBeUpdated.address?.street },
-                    { number: clientToBeUpdated.address?.number },
-                    { cep: clientToBeUpdated.address?.cep },
-                    { neighborhood: clientToBeUpdated.address?.neighborhood },
-                    { city: clientToBeUpdated.address?.city },
-                ],
-            }
+                id: clientToBeUpdated.id,
+            },
         })
 
-        if (addressExist) {
-            await prisma.address.update({
-                where: {
-                    id: addressExist.id
-                },
-                data: {
-                    street: clientToBeUpdated.address?.street,
-                    number: clientToBeUpdated.address?.number,
-                    cep: clientToBeUpdated.address?.cep,
-                    neighborhood: clientToBeUpdated.address?.neighborhood,
-                    city: clientToBeUpdated.address?.city,
-                }
-            })
 
-        }
 
+        await prisma.address.update({
+            where: {
+                id: clientExists?.addressId
+            },
+            data: {
+                street: clientToBeUpdated.address?.street,
+                number: clientToBeUpdated.address?.number,
+                cep: clientToBeUpdated.address?.cep,
+                neighborhood: clientToBeUpdated.address?.neighborhood,
+                city: clientToBeUpdated.address?.city,
+            }
+        })
 
         const client = await prisma.client.update({
             where: {
@@ -117,11 +109,12 @@ export class PrismaClientsRepository implements ClientsRepository {
                 document: clientToBeUpdated.document,
                 birthDate: clientToBeUpdated.birthDate,
                 active: clientToBeUpdated.active,
-                addressId: addressExist?.id,
+                addressId: clientExists?.addressId,
             }
         })
 
         return client
+
     }
 
 
