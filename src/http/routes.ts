@@ -34,21 +34,20 @@ export async function appRoutes(app: FastifyInstance) {
                 tags: ['Clients'],
                 summary: 'Get all clients',
                 response: {
-                    200: z.object({
-                        clients: z.array(z.object({
-                            id: z.string(),
-                            name: z.string(),
-                            type: z.enum(['FISICA', 'JURIDICA']),
-                            document: z.string(),
-                            birthDate: z.string(),
-                            active: z.boolean().nullable(),
-                            createdAt: z.date(),
-                            updatedAt: z.date(),
-                            deleted: z.boolean().nullable(),
-                            addressId: z.string(),
-                            routerId: z.string().nullable(),
-                        }))
-                    })
+                    200: z.array(z.object({
+                        id: z.string(),
+                        name: z.string(),
+                        type: z.enum(['FISICA', 'JURIDICA']),
+                        document: z.string(),
+                        birthDate: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        addressId: z.string(),
+                        routerId: z.string().nullable(),
+                    }))
+
                 }
             },
         }, getAllClients)
@@ -61,19 +60,17 @@ export async function appRoutes(app: FastifyInstance) {
                 summary: 'Get client',
                 response: {
                     200: z.object({
-                        client: z.object({
-                            id: z.string(),
-                            name: z.string(),
-                            type: z.enum(['FISICA', 'JURIDICA']),
-                            document: z.string(),
-                            birthDate: z.string(),
-                            active: z.boolean().nullable(),
-                            createdAt: z.date(),
-                            updatedAt: z.date(),
-                            deleted: z.boolean().nullable(),
-                            addressId: z.string(),
-                            routerId: z.string().nullable(),
-                        })
+                        id: z.string(),
+                        name: z.string(),
+                        type: z.enum(['FISICA', 'JURIDICA']),
+                        document: z.string(),
+                        birthDate: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        addressId: z.string(),
+                        routerId: z.string().nullable(),
                     })
                 }
             },
@@ -112,14 +109,12 @@ export async function appRoutes(app: FastifyInstance) {
                 summary: 'Get address',
                 response: {
                     200: z.object({
-                        address: z.object({
-                            id: z.string(),
-                            street: z.string(),
-                            number: z.string(),
-                            cep: z.string(),
-                            neighborhood: z.string(),
-                            city: z.string(),
-                        })
+                        id: z.string(),
+                        street: z.string(),
+                        number: z.string(),
+                        cep: z.string(),
+                        neighborhood: z.string(),
+                        city: z.string(),
                     })
                 }
             },
@@ -147,20 +142,18 @@ export async function appRoutes(app: FastifyInstance) {
                 tags: ['Routers'],
                 summary: 'Get all routers',
                 response: {
-                    200: z.object({
-                        routers: z.array(z.object({
-                            id: z.string(),
-                            ipAddress: z.string(),
-                            ipv6Address: z.string(),
-                            brand: z.string(),
-                            model: z.string(),
-                            active: z.boolean().nullable(),
-                            createdAt: z.date(),
-                            updatedAt: z.date(),
-                            deleted: z.boolean().nullable(),
-                            clientsIds: z.array(z.string()).optional(),
-                        }))
-                    })
+                    200: z.array(z.object({
+                        id: z.string(),
+                        ipAddress: z.string(),
+                        ipv6Address: z.string(),
+                        brand: z.string(),
+                        model: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        clientsIds: z.array(z.string()).optional(),
+                    }))
                 }
             },
         }, getAllRouters)
@@ -174,18 +167,16 @@ export async function appRoutes(app: FastifyInstance) {
                 summary: 'Get router',
                 response: {
                     200: z.object({
-                        router: z.object({
-                            id: z.string(),
-                            ipAddress: z.string(),
-                            ipv6Address: z.string(),
-                            brand: z.string(),
-                            model: z.string(),
-                            active: z.boolean().nullable(),
-                            createdAt: z.date(),
-                            updatedAt: z.date(),
-                            deleted: z.boolean().nullable(),
-                            clientsIds: z.array(z.string()).optional(),
-                        })
+                        id: z.string(),
+                        ipAddress: z.string(),
+                        ipv6Address: z.string(),
+                        brand: z.string(),
+                        model: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        clientsIds: z.array(z.string()).optional(),
                     })
                 }
             },

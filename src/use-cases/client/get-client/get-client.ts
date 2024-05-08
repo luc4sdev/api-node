@@ -6,9 +6,7 @@ interface GetClientUseCaseRequest {
     clientId: string;
 }
 
-interface GetClientUseCaseResponse {
-    client: Client
-}
+type GetClientUseCaseResponse = Client
 
 
 export class GetClientUseCase {
@@ -23,8 +21,6 @@ export class GetClientUseCase {
             throw new ResourceNotFoundError()
         }
 
-        return {
-            client
-        }
+        return client
     }
 }

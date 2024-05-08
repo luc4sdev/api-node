@@ -11,9 +11,9 @@ export async function getClient(request: FastifyRequest, reply: FastifyReply) {
 
     const getClient = makeGetClientUseCase()
 
-    const { client } = await getClient.execute({
+    const client = await getClient.execute({
         clientId
     })
 
-    return reply.status(200).send({ client })
+    return reply.status(200).send(client)
 }

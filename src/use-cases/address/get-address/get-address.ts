@@ -6,9 +6,7 @@ interface GetAddressUseCaseRequest {
     addressId: string;
 }
 
-interface GetAddressUseCaseResponse {
-    address: Address
-}
+type GetAddressUseCaseResponse = Address
 
 
 export class GetAddressUseCase {
@@ -23,8 +21,6 @@ export class GetAddressUseCase {
             throw new ResourceNotFoundError()
         }
 
-        return {
-            address
-        }
+        return address
     }
 }

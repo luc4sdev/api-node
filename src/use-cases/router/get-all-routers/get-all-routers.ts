@@ -6,9 +6,7 @@ export interface RouterWithClients extends Router {
     clientsIds?: string[]
 }
 
-export interface GetAllRoutersUseCaseResponse {
-    routers: RouterWithClients[]
-}
+export type GetAllRoutersUseCaseResponse = RouterWithClients[]
 
 
 export class GetAllRoutersUseCase {
@@ -23,8 +21,6 @@ export class GetAllRoutersUseCase {
             throw new ResourceNotFoundError()
         }
 
-        return {
-            routers
-        }
+        return routers
     }
 }

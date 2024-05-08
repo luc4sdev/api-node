@@ -2,9 +2,7 @@ import { ClientsRepository } from '../../../repositories/clients-repository';
 import { Client } from '@prisma/client';
 import { ResourceNotFoundError } from '../../errors/resource-not-found-error';
 
-interface GetAllClientsUseCaseResponse {
-    clients: Client[]
-}
+type GetAllClientsUseCaseResponse = Client[]
 
 
 export class GetAllClientsUseCase {
@@ -19,8 +17,6 @@ export class GetAllClientsUseCase {
             throw new ResourceNotFoundError()
         }
 
-        return {
-            clients
-        }
+        return clients
     }
 }

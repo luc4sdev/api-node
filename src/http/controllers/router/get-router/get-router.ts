@@ -10,9 +10,9 @@ export async function getRouter(request: FastifyRequest, reply: FastifyReply) {
 
     const getRouter = makeGetRouterUseCase()
 
-    const { router } = await getRouter.execute({
+    const router = await getRouter.execute({
         routerId
     })
 
-    return reply.status(200).send({ router })
+    return reply.status(200).send(router)
 }

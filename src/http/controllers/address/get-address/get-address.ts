@@ -10,9 +10,9 @@ export async function getAddress(request: FastifyRequest, reply: FastifyReply) {
 
     const getAddress = makeGetAddressUseCase()
 
-    const { address } = await getAddress.execute({
+    const address = await getAddress.execute({
         addressId
     })
 
-    return reply.status(200).send({ address })
+    return reply.status(200).send(address)
 }
