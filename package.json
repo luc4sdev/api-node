@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "8.4.1",
     "@rocketseat/eslint-config": "2.2.2",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "20.12.5",
@@ -39,5 +40,8 @@
     "fastify-plugin": "4.5.1",
     "fastify-type-provider-zod": "1.1.9",
     "zod": "3.22.4"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
