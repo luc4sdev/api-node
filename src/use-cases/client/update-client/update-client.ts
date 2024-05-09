@@ -7,7 +7,6 @@ export interface UpdateClientUseCaseRequest {
     type?: "FISICA" | "JURIDICA"
     document?: string
     birthDate?: string
-    active?: boolean
     address?: {
         street?: string;
         number?: string;
@@ -25,10 +24,10 @@ export class UpdateClientUseCase {
 
     constructor(private clientsRepository: ClientsRepository) { }
 
-    async execute({ id, name, type, document, birthDate, active, address }: UpdateClientUseCaseRequest): Promise<UpdateClientUseCaseResponse> {
+    async execute({ id, name, type, document, birthDate, address }: UpdateClientUseCaseRequest): Promise<UpdateClientUseCaseResponse> {
 
 
-        const client = await this.clientsRepository.update({ id, name, type, document, birthDate, active, address })
+        const client = await this.clientsRepository.update({ id, name, type, document, birthDate, address })
 
         return {
             client

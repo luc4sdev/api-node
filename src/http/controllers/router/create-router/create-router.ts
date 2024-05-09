@@ -8,20 +8,19 @@ export const createRouterBodySchema = z.object({
     ipv6Address: z.string(),
     brand: z.string(),
     model: z.string(),
-    active: z.boolean(),
     clientsIds: z.array(z.string())
 })
 
 export async function createRouter(request: FastifyRequest, reply: FastifyReply) {
 
-    const { ipAddress, ipv6Address, brand, model, active, clientsIds } = createRouterBodySchema.parse(request.body)
+    const { ipAddress, ipv6Address, brand, model, clientsIds } = createRouterBodySchema.parse(request.body)
 
 
     try {
 
         const createRouterUseCase = makeCreateRouterUseCase()
 
-        await createRouterUseCase.execute({ ipAddress, ipv6Address, brand, model, active, clientsIds })
+        await createRouterUseCase.execute({ ipAddress, ipv6Address, brand, model, clientsIds })
 
     } catch (err) {
         throw err

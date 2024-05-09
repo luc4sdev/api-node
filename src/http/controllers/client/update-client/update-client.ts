@@ -17,20 +17,19 @@ export const updateClientBodySchema = z.object({
     type: z.enum(['FISICA', 'JURIDICA']).optional(),
     document: z.string().optional(),
     birthDate: z.string().optional(),
-    address: AddressSchema,
-    active: z.boolean().optional()
+    address: AddressSchema
 })
 
 export async function updateClient(request: FastifyRequest, reply: FastifyReply) {
 
-    const { id, name, type, document, birthDate, address, active } = updateClientBodySchema.parse(request.body)
+    const { id, name, type, document, birthDate, address } = updateClientBodySchema.parse(request.body)
 
 
     try {
 
         const updateClientUseCase = makeUpdateClientUseCase()
 
-        await updateClientUseCase.execute({ id, name, type, document, birthDate, address, active })
+        await updateClientUseCase.execute({ id, name, type, document, birthDate, address })
 
     } catch (err) {
         throw err

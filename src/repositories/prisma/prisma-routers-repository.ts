@@ -71,12 +71,22 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 ipv6Address: routerToBeCreated.ipv6Address,
                 brand: routerToBeCreated.brand,
                 model: routerToBeCreated.model,
-                active: routerToBeCreated.active,
+                active: (routerToBeCreated && routerToBeCreated.clientsIds && routerToBeCreated.clientsIds?.length > 0) ? true : false,
                 client: {
                     connect: routerToBeCreated.clientsIds?.map(id => ({ id })) ?? []
                 }
             }
         })
+
+        await prisma.client.updateMany({
+            where: {
+                routerId: router.id
+            },
+            data: {
+                active: true
+            }
+        })
+
 
         return router
     }
@@ -94,10 +104,7 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 ipv6Address: routerToBeUpdated.ipv6Address,
                 brand: routerToBeUpdated.brand,
                 model: routerToBeUpdated.model,
-                active: routerToBeUpdated.active,
-                client: {
-                    set: routerToBeUpdated.clientsIds?.map(id => ({ id })) ?? []
-                }
+                active: (routerToBeUpdated && routerToBeUpdated.clientsIds && routerToBeUpdated.clientsIds?.length > 0) ? true : false
             }
         })
 
@@ -108,9 +115,41 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 }
             },
             data: {
-                routerId: routerToBeUpdated.id
+                routerId: routerToBeUpdated.id,
+                active: true
+            }
+        })
+
+        const routersToUpdate = await prisma.router.findMany({
+            where: {
+                client: {
+                    none: {}
+                }
+            },
+            select: {
+                id: true
             }
         });
+
+        for (const router of routersToUpdate) {
+            await prisma.router.update({
+                where: {
+                    id: router.id
+                },
+                data: {
+                    active: false
+                }
+            });
+        }
+
+        await prisma.client.updateMany({
+            where: {
+                routerId: null
+            },
+            data: {
+                active: false
+            }
+        })
 
         return router
     }
@@ -123,7 +162,19 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 id: routerToBeDeleted.id
             },
             data: {
-                deleted: true
+                deleted: true,
+                active: false
+            }
+        })
+
+        await prisma.client.updateMany({
+            where: {
+                id: {
+                    in: routerToBeDeleted.clientsIds
+                }
+            },
+            data: {
+                active: false
             }
         })
 

@@ -6,7 +6,6 @@ export interface CreateRouterUseCaseRequest {
     ipv6Address: string
     brand: string
     model: string
-    active?: boolean
     clientsIds?: string[]
 }
 
@@ -18,10 +17,10 @@ export class CreateRouterUseCase {
 
     constructor(private routersRepository: RoutersRepository) { }
 
-    async execute({ ipAddress, ipv6Address, brand, model, active, clientsIds }: CreateRouterUseCaseRequest): Promise<CreateRouterUseCaseResponse> {
+    async execute({ ipAddress, ipv6Address, brand, model, clientsIds }: CreateRouterUseCaseRequest): Promise<CreateRouterUseCaseResponse> {
 
 
-        const router = await this.routersRepository.create({ ipAddress, ipv6Address, brand, model, active, clientsIds })
+        const router = await this.routersRepository.create({ ipAddress, ipv6Address, brand, model, clientsIds })
 
         return {
             router

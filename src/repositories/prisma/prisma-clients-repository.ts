@@ -56,7 +56,6 @@ export class PrismaClientsRepository implements ClientsRepository {
                     type: clientToBeCreated.type,
                     document: clientToBeCreated.document,
                     birthDate: clientToBeCreated.birthDate,
-                    active: clientToBeCreated.active,
                     addressId: address.id,
                 }
             })
@@ -70,7 +69,6 @@ export class PrismaClientsRepository implements ClientsRepository {
                 type: clientToBeCreated.type,
                 document: clientToBeCreated.document,
                 birthDate: clientToBeCreated.birthDate,
-                active: clientToBeCreated.active,
                 addressId: addressExist.id,
             }
         })
@@ -111,7 +109,6 @@ export class PrismaClientsRepository implements ClientsRepository {
                 type: clientToBeUpdated.type,
                 document: clientToBeUpdated.document,
                 birthDate: clientToBeUpdated.birthDate,
-                active: clientToBeUpdated.active,
                 addressId: clientExists?.addressId,
             }
         })
@@ -128,7 +125,8 @@ export class PrismaClientsRepository implements ClientsRepository {
                 id: clientToBeDeleted.id
             },
             data: {
-                deleted: true
+                deleted: true,
+                active: false
             }
         })
 

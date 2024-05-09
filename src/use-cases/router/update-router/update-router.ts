@@ -8,7 +8,6 @@ export interface UpdateRouterUseCaseRequest {
     ipv6Address?: string
     brand?: string
     model?: string
-    active?: boolean
     clientsIds?: string[]
 }
 
@@ -20,10 +19,10 @@ export class UpdateRouterUseCase {
 
     constructor(private routersRepository: RoutersRepository) { }
 
-    async execute({ id, ipAddress, ipv6Address, brand, model, active, clientsIds }: UpdateRouterUseCaseRequest): Promise<UpdateRouterUseCaseResponse> {
+    async execute({ id, ipAddress, ipv6Address, brand, model, clientsIds }: UpdateRouterUseCaseRequest): Promise<UpdateRouterUseCaseResponse> {
 
 
-        const router = await this.routersRepository.update({ id, ipAddress, ipv6Address, brand, model, active, clientsIds })
+        const router = await this.routersRepository.update({ id, ipAddress, ipv6Address, brand, model, clientsIds })
 
         return {
             router

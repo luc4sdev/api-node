@@ -6,7 +6,6 @@ export interface CreateClientUseCaseRequest {
     type: "FISICA" | "JURIDICA"
     document: string
     birthDate: string
-    active?: boolean
     address: {
         street: string;
         number: string;
@@ -24,10 +23,10 @@ export class CreateClientUseCase {
 
     constructor(private clientsRepository: ClientsRepository) { }
 
-    async execute({ name, type, document, birthDate, active, address }: CreateClientUseCaseRequest): Promise<CreateClientUseCaseResponse> {
+    async execute({ name, type, document, birthDate, address }: CreateClientUseCaseRequest): Promise<CreateClientUseCaseResponse> {
 
 
-        const client = await this.clientsRepository.create({ name, type, document, birthDate, active, address })
+        const client = await this.clientsRepository.create({ name, type, document, birthDate, address })
 
         return {
             client
