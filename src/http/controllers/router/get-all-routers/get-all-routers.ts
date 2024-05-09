@@ -4,9 +4,9 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function getAllRouters(_: FastifyRequest, reply: FastifyReply) {
 
-    const getClient = makeGetAllRoutersUseCase()
+    const getAllRouters = makeGetAllRoutersUseCase()
 
-    const routers = await getClient.execute()
+    const routers = await getAllRouters.execute()
 
     return reply.status(200).send(routers)
 }

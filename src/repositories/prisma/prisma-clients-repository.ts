@@ -11,6 +11,9 @@ export class PrismaClientsRepository implements ClientsRepository {
         const clients = await prisma.client.findMany({
             where: {
                 deleted: false
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
 

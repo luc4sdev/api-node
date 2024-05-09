@@ -11,6 +11,9 @@ export class PrismaRoutersRepository implements RoutersRepository {
         const routers = await prisma.router.findMany({
             where: {
                 deleted: false
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         });
 
@@ -70,7 +73,7 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 model: routerToBeCreated.model,
                 active: routerToBeCreated.active,
                 client: {
-                    connect: routerToBeCreated.clientsIds?.map(id => ({ id })) ?? undefined
+                    connect: routerToBeCreated.clientsIds?.map(id => ({ id })) ?? []
                 }
             }
         })
@@ -91,7 +94,10 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 ipv6Address: routerToBeUpdated.ipv6Address,
                 brand: routerToBeUpdated.brand,
                 model: routerToBeUpdated.model,
-                active: routerToBeUpdated.active
+                active: routerToBeUpdated.active,
+                client: {
+                    set: routerToBeUpdated.clientsIds?.map(id => ({ id })) ?? []
+                }
             }
         })
 
