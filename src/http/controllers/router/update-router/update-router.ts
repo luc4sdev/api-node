@@ -20,12 +20,14 @@ export async function updateRouter(request: FastifyRequest, reply: FastifyReply)
 
         const updateRouterUseCase = makeUpdateRouterUseCase()
 
-        await updateRouterUseCase.execute({ id, ipAddress, ipv6Address, brand, model, clientsIds })
+        const data = await updateRouterUseCase.execute({ id, ipAddress, ipv6Address, brand, model, clientsIds })
+
+        return reply.status(200).send(data.router)
 
     } catch (err) {
         throw err
     }
 
 
-    return reply.status(201).send()
+
 }

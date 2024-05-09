@@ -27,12 +27,12 @@ export async function createClient(request: FastifyRequest, reply: FastifyReply)
 
         const createClientUseCase = makeCreateClientUseCase()
 
-        await createClientUseCase.execute({ name, type, document, birthDate, address })
+        const data = await createClientUseCase.execute({ name, type, document, birthDate, address })
+
+        return reply.status(201).send(data.client)
 
     } catch (err) {
         throw err
     }
 
-
-    return reply.status(201).send()
 }

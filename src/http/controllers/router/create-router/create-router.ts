@@ -20,12 +20,14 @@ export async function createRouter(request: FastifyRequest, reply: FastifyReply)
 
         const createRouterUseCase = makeCreateRouterUseCase()
 
-        await createRouterUseCase.execute({ ipAddress, ipv6Address, brand, model, clientsIds })
+        const data = await createRouterUseCase.execute({ ipAddress, ipv6Address, brand, model, clientsIds })
+
+        return reply.status(201).send(data.router)
 
     } catch (err) {
         throw err
     }
 
 
-    return reply.status(201).send()
+
 }

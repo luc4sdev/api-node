@@ -16,12 +16,12 @@ export async function deleteClient(request: FastifyRequest, reply: FastifyReply)
 
         const deleteClientUseCase = makeDeleteClientUseCase()
 
-        await deleteClientUseCase.execute({ id })
+        const data = await deleteClientUseCase.execute({ id })
+
+        return reply.status(200).send(data.client)
 
     } catch (err) {
         throw err
     }
 
-
-    return reply.status(201).send()
 }

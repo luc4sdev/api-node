@@ -24,6 +24,21 @@ export async function appRoutes(app: FastifyInstance) {
                 tags: ['Clients'],
                 summary: 'Create a new client',
                 body: createClientBodySchema,
+                response: {
+                    201: z.object({
+                        id: z.string(),
+                        name: z.string(),
+                        type: z.enum(['FISICA', 'JURIDICA']),
+                        document: z.string(),
+                        birthDate: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        addressId: z.string(),
+                        routerId: z.string().nullable(),
+                    })
+                }
             },
         }, createClient)
 
@@ -83,7 +98,22 @@ export async function appRoutes(app: FastifyInstance) {
             schema: {
                 tags: ['Clients'],
                 summary: 'Update client',
-                body: updateClientBodySchema
+                body: updateClientBodySchema,
+                response: {
+                    200: z.object({
+                        id: z.string(),
+                        name: z.string(),
+                        type: z.enum(['FISICA', 'JURIDICA']),
+                        document: z.string(),
+                        birthDate: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        addressId: z.string(),
+                        routerId: z.string().nullable(),
+                    })
+                }
             },
         }, updateClient)
 
@@ -93,7 +123,22 @@ export async function appRoutes(app: FastifyInstance) {
             schema: {
                 tags: ['Clients'],
                 summary: 'Delete client',
-                body: deleteClientBodySchema
+                body: deleteClientBodySchema,
+                response: {
+                    200: z.object({
+                        id: z.string(),
+                        name: z.string(),
+                        type: z.enum(['FISICA', 'JURIDICA']),
+                        document: z.string(),
+                        birthDate: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        addressId: z.string(),
+                        routerId: z.string().nullable(),
+                    })
+                }
             },
         }, deleteClient)
 
@@ -131,6 +176,20 @@ export async function appRoutes(app: FastifyInstance) {
                 tags: ['Routers'],
                 summary: 'Create a new router',
                 body: createRouterBodySchema,
+                response: {
+                    201: z.object({
+                        id: z.string(),
+                        ipAddress: z.string(),
+                        ipv6Address: z.string(),
+                        brand: z.string(),
+                        model: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        clientsIds: z.array(z.string()).optional(),
+                    })
+                }
             },
         }, createRouter)
 
@@ -189,7 +248,21 @@ export async function appRoutes(app: FastifyInstance) {
             schema: {
                 tags: ['Routers'],
                 summary: 'Update router',
-                body: updateRouterBodySchema
+                body: updateRouterBodySchema,
+                response: {
+                    200: z.object({
+                        id: z.string(),
+                        ipAddress: z.string(),
+                        ipv6Address: z.string(),
+                        brand: z.string(),
+                        model: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        clientsIds: z.array(z.string()).optional(),
+                    })
+                }
             },
         }, updateRouter)
 
@@ -199,7 +272,21 @@ export async function appRoutes(app: FastifyInstance) {
             schema: {
                 tags: ['Routers'],
                 summary: 'Delete router',
-                body: deleteRouterBodySchema
+                body: deleteRouterBodySchema,
+                response: {
+                    200: z.object({
+                        id: z.string(),
+                        ipAddress: z.string(),
+                        ipv6Address: z.string(),
+                        brand: z.string(),
+                        model: z.string(),
+                        active: z.boolean().nullable(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                        deleted: z.boolean().nullable(),
+                        clientsIds: z.array(z.string()).optional(),
+                    })
+                }
             },
         }, deleteRouter)
 

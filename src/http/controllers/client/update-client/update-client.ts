@@ -29,12 +29,14 @@ export async function updateClient(request: FastifyRequest, reply: FastifyReply)
 
         const updateClientUseCase = makeUpdateClientUseCase()
 
-        await updateClientUseCase.execute({ id, name, type, document, birthDate, address })
+        const data = await updateClientUseCase.execute({ id, name, type, document, birthDate, address })
+
+        return reply.status(200).send(data.client)
 
     } catch (err) {
         throw err
     }
 
 
-    return reply.status(201).send()
+
 }

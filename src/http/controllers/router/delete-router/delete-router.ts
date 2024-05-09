@@ -15,12 +15,14 @@ export async function deleteRouter(request: FastifyRequest, reply: FastifyReply)
 
         const deleteRouterUseCase = makeDeleteRouterUseCase()
 
-        await deleteRouterUseCase.execute({ id })
+        const data = await deleteRouterUseCase.execute({ id })
+
+        return reply.status(200).send(data.router)
 
     } catch (err) {
         throw err
     }
 
 
-    return reply.status(201).send()
+
 }
