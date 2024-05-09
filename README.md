@@ -98,9 +98,7 @@ O projeto está desenvolvido utilizando as seguintes tecnologias:
 - Swagger <img width="25px" height="25px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" />
 
 
-
-
-
+<br/>
 
 ## Features
 
