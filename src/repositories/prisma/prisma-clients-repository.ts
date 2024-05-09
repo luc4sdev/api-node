@@ -3,6 +3,7 @@ import { Client } from '@prisma/client'
 import { ClientsRepository } from "../clients-repository";
 import { CreateClientUseCaseRequest } from "@/use-cases/client/create-client/create-client";
 import { UpdateClientUseCaseRequest } from "@/use-cases/client/update-client/update-client";
+import { DeleteClientUseCaseRequest } from "@/use-cases/client/delete-client/delete-client";
 
 
 export class PrismaClientsRepository implements ClientsRepository {
@@ -118,19 +119,53 @@ export class PrismaClientsRepository implements ClientsRepository {
     }
 
 
-    async delete(clientToBeDeleted: UpdateClientUseCaseRequest) {
-
-        const client = await prisma.client.update({
+    async delete({ id }: DeleteClientUseCaseRequest) {
+        const client = await prisma.client.findUnique({
             where: {
-                id: clientToBeDeleted.id
+                id
+            }
+        });
+
+        if (!client) {
+            throw new Error('Client not found');
+        }
+
+        const routerId = client.routerId;
+
+        await prisma.client.update({
+            where: {
+                id
             },
             data: {
                 deleted: true,
-                active: false
+                active: false,
+                routerId: null
             }
-        })
+        });
 
-        return client
+
+        if (routerId) {
+
+            const clientsInRouter = await prisma.client.count({
+                where: {
+                    routerId
+                }
+            });
+
+            if (clientsInRouter === 0) {
+
+                await prisma.router.update({
+                    where: {
+                        id: routerId
+                    },
+                    data: {
+                        active: false
+                    }
+                });
+            }
+        }
+
+        return client;
     }
 
 

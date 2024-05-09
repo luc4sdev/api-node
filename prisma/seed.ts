@@ -24,7 +24,6 @@ async function seed() {
             type: 'FISICA',
             document: '71048770109',
             birthDate: '10-12-1992',
-            active: false,
             addressId: address.id
         }
     })
@@ -35,7 +34,6 @@ async function seed() {
             type: 'FISICA',
             document: '22222222222',
             birthDate: '10-12-1992',
-            active: true,
             addressId: address.id
         }
     })
@@ -46,7 +44,6 @@ async function seed() {
             type: 'JURIDICA',
             document: '71048770109',
             birthDate: '03-01-2002',
-            active: true,
             addressId: address.id
         }
     })
@@ -61,8 +58,7 @@ async function seed() {
             ipAddress: '192.168.1.1',
             ipv6Address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
             brand: 'Huawei',
-            model: 'NE8000',
-            active: true
+            model: 'NE8000'
         }
     })
 }

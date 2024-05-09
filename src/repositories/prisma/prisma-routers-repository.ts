@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { RoutersRepository } from "../routers-repository";
 import { CreateRouterUseCaseRequest } from "@/use-cases/router/create-router/create-router";
 import { UpdateRouterUseCaseRequest } from '@/use-cases/router/update-router/update-router';
+import { DeleteRouterUseCaseRequest } from '@/use-cases/router/delete-router/delete-router';
 
 
 export class PrismaRoutersRepository implements RoutersRepository {
@@ -104,7 +105,10 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 ipv6Address: routerToBeUpdated.ipv6Address,
                 brand: routerToBeUpdated.brand,
                 model: routerToBeUpdated.model,
-                active: (routerToBeUpdated && routerToBeUpdated.clientsIds && routerToBeUpdated.clientsIds?.length > 0) ? true : false
+                active: (routerToBeUpdated && routerToBeUpdated.clientsIds && routerToBeUpdated.clientsIds?.length > 0) ? true : false,
+                client: {
+                    set: routerToBeUpdated.clientsIds?.map(id => ({ id })) ?? []
+                }
             }
         })
 
@@ -155,30 +159,49 @@ export class PrismaRoutersRepository implements RoutersRepository {
     }
 
 
-    async delete(routerToBeDeleted: UpdateRouterUseCaseRequest) {
+    async delete({ id }: DeleteRouterUseCaseRequest) {
 
-        const router = await prisma.router.update({
+        const router = await prisma.router.findUnique({
             where: {
-                id: routerToBeDeleted.id
+                id
             },
-            data: {
-                deleted: true,
-                active: false
+            include: {
+                client: {
+                    select: {
+                        id: true
+                    }
+                }
             }
-        })
+        });
+
+        if (!router) {
+            throw new Error('Router not found');
+        }
+
+        const clientIds = router.client.map(client => client.id);
 
         await prisma.client.updateMany({
             where: {
                 id: {
-                    in: routerToBeDeleted.clientsIds
+                    in: clientIds
                 }
             },
             data: {
                 active: false
             }
-        })
+        });
 
-        return router
+        const deletedRouter = await prisma.router.update({
+            where: {
+                id
+            },
+            data: {
+                deleted: true,
+                active: false
+            }
+        });
+
+        return deletedRouter;
     }
 
 
