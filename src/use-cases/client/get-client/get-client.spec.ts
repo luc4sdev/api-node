@@ -1,40 +1,33 @@
-// import { expect, describe, it, beforeEach } from 'vitest'
-// import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-clients.repository';
-// import { GetUserProfileUseCase } from './get-client';
-// import { ResourceNotFoundError } from '../../errors/resource-not-found-error';
+import { expect, describe, it } from 'vitest'
+import { InMemoryClientsRepository } from '@/repositories/in-memory/in-memory-clients-repository';
+import { GetClientUseCase } from './get-client';
 
+let clientsRepository: InMemoryClientsRepository
+let sut: GetClientUseCase
 
-// let usersRepository: InMemoryUsersRepository
-// let sut: GetUserProfileUseCase
+describe('Get Client Use Case', () => {
 
-// describe('Get User Profile Use Case', () => {
+    clientsRepository = new InMemoryClientsRepository()
+    sut = new GetClientUseCase(clientsRepository)
 
-//     beforeEach(() => {
-//         usersRepository = new InMemoryUsersRepository()
-//         sut = new GetUserProfileUseCase(usersRepository)
-//     })
-//     it('should be able to get user profile', async () => {
+    it('should be able to get client', async () => {
 
-//         const createdUser = await usersRepository.create({
-//             name: 'John Doe',
-//             email: 'johndoe@example.com',
-//             password_hash: await hash('123456', 6)
-//         })
+        const createdClient = await clientsRepository.create({
+            name: 'John Doe',
+            type: 'FISICA',
+            document: '70044410200',
+            birthDate: '12-02-1992',
+            address: {
+                street: 'Rua 1',
+                number: '12',
+                cep: '74000000',
+                neighborhood: 'Bairro ABC',
+                city: 'New York'
+            }
+        })
 
-//         const { user } = await sut.execute({
-//             userId: createdUser.id
-//         })
-//         expect(user.id).toEqual(expect.any(String))
-//         expect(user.name).toEqual('John Doe')
-//     })
+        const client = await sut.execute({ clientId: createdClient.id })
 
-//     it('should not be able to get user profile with wrong id', async () => {
-
-//         await expect(() => sut.execute({
-//             userId: 'non-existing-id'
-//         })).rejects.toBeInstanceOf(ResourceNotFoundError)
-
-//     })
-
-
-// })
+        expect(client.name).toEqual('John Doe')
+    })
+})

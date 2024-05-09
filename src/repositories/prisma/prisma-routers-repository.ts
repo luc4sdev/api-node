@@ -4,6 +4,7 @@ import { RoutersRepository } from "../routers-repository";
 import { CreateRouterUseCaseRequest } from "@/use-cases/router/create-router/create-router";
 import { UpdateRouterUseCaseRequest } from '@/use-cases/router/update-router/update-router';
 import { DeleteRouterUseCaseRequest } from '@/use-cases/router/delete-router/delete-router';
+import { Router } from '@prisma/client';
 
 
 export class PrismaRoutersRepository implements RoutersRepository {
@@ -63,7 +64,7 @@ export class PrismaRoutersRepository implements RoutersRepository {
     }
 
 
-    async create(routerToBeCreated: CreateRouterUseCaseRequest) {
+    async create(routerToBeCreated: CreateRouterUseCaseRequest): Promise<Router> {
 
 
         const router = await prisma.router.create({
@@ -93,7 +94,7 @@ export class PrismaRoutersRepository implements RoutersRepository {
     }
 
 
-    async update(routerToBeUpdated: UpdateRouterUseCaseRequest) {
+    async update(routerToBeUpdated: UpdateRouterUseCaseRequest): Promise<Router> {
 
 
         const router = await prisma.router.update({
@@ -159,7 +160,7 @@ export class PrismaRoutersRepository implements RoutersRepository {
     }
 
 
-    async delete({ id }: DeleteRouterUseCaseRequest) {
+    async delete({ id }: DeleteRouterUseCaseRequest): Promise<Router> {
 
         const router = await prisma.router.findUnique({
             where: {

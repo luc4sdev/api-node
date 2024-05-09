@@ -1,60 +1,31 @@
-// import { compare } from 'bcryptjs';
-// import { CreateClientUseCase } from './create-client';
-// import { expect, describe, it, beforeEach } from 'vitest'
-// import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-clients.repository'; ';
+import { CreateClientUseCase } from './create-client';
+import { expect, describe, it } from 'vitest'
+import { InMemoryClientsRepository } from '@/repositories/in-memory/in-memory-clients-repository';
 
-// let usersRepository: InMemoryUsersRepository
-// let sut: CreateClientUseCase
+let clientsRepository: InMemoryClientsRepository
+let sut: CreateClientUseCase
 
-// describe('Register Use Case', () => {
-//     beforeEach(() => {
-//         usersRepository = new InMemoryUsersRepository()
-//         sut = new CreateClientUseCase(usersRepository)
-//     })
+describe('Create Client Use Case', () => {
 
-//     it('should hash user password upon registration', async () => {
+    clientsRepository = new InMemoryClientsRepository()
+    sut = new CreateClientUseCase(clientsRepository)
 
-//         const { user } = await sut.execute({
-//             name: 'John Doe',
-//             email: 'johndoe@example.com',
-//             password: '123456'
-//         })
+    it('should be able to create client', async () => {
 
-//         const isPasswordCorrectlyHashed = await compare('123456', user.password_hash)
+        const { client } = await sut.execute({
+            name: 'John Doe',
+            type: 'FISICA',
+            document: '70044410200',
+            birthDate: '12-02-1992',
+            address: {
+                street: 'Rua 1',
+                number: '12',
+                cep: '74000000',
+                neighborhood: 'Bairro ABC',
+                city: 'New York'
+            }
+        })
 
-//         expect(isPasswordCorrectlyHashed).toBe(true)
-//     })
-
-
-//     it('should not be able to register with same email twice', async () => {
-
-//         const email = 'johndoe@example.com'
-
-//         await sut.execute({
-//             name: 'John Doe',
-//             email,
-//             password: '123456'
-//         })
-
-//         await expect(() =>
-//             sut.execute({
-//                 name: 'John Doe',
-//                 email,
-//                 password: '123456'
-//             })
-//         ).rejects.toBeInstanceOf(UserAlreadyExistsError)
-
-//     })
-
-
-//     it('should be able to register', async () => {
-
-//         const { user } = await sut.execute({
-//             name: 'John Doe',
-//             email: 'johndoe@example.com',
-//             password: '123456'
-//         })
-
-//         expect(user.id).toEqual(expect.any(String))
-//     })
-// })
+        expect(client.id).toEqual(expect.any(String))
+    })
+})

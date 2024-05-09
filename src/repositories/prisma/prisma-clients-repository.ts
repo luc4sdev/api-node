@@ -32,7 +32,7 @@ export class PrismaClientsRepository implements ClientsRepository {
     }
 
 
-    async create(clientToBeCreated: CreateClientUseCaseRequest) {
+    async create(clientToBeCreated: CreateClientUseCaseRequest): Promise<Client> {
 
         const addressExist = await prisma.address.findFirst({
             where: {
@@ -78,7 +78,7 @@ export class PrismaClientsRepository implements ClientsRepository {
     }
 
 
-    async update(clientToBeUpdated: UpdateClientUseCaseRequest) {
+    async update(clientToBeUpdated: UpdateClientUseCaseRequest): Promise<Client> {
 
         const clientExists = await prisma.client.findUnique({
             where: {
@@ -119,7 +119,7 @@ export class PrismaClientsRepository implements ClientsRepository {
     }
 
 
-    async delete({ id }: DeleteClientUseCaseRequest) {
+    async delete({ id }: DeleteClientUseCaseRequest): Promise<Client> {
         const client = await prisma.client.findUnique({
             where: {
                 id
