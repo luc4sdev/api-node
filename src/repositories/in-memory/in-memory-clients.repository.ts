@@ -1,34 +1,34 @@
-import { Prisma, Client } from "@prisma/client";
-import { ClientsRepository } from "../clients-repository";
-import { randomUUID } from "node:crypto";
+// import { Prisma, Client } from "@prisma/client";
+// import { ClientsRepository } from "../clients-repository";
+// import { randomUUID } from "node:crypto";
 
-export class InMemoryClientsRepository implements ClientsRepository {
-
-
-    public items: Client[] = []
-
-    async findById(id: string) {
-        const client = this.items.find(item => item.id === id)
-
-        if (!client) {
-            return null
-        }
-
-        return client
-    }
+// export class InMemoryClientsRepository implements ClientsRepository {
 
 
-    async create(data: Prisma.ClientCreateInput) {
-        const user = {
-            id: randomUUID(),
-            name: data.name,
+//     public items: Client[] = []
 
-            created_at: new Date()
-        }
+//     async findById(id: string) {
+//         const client = this.items.find(item => item.id === id)
 
-        this.items.push(user)
+//         if (!client) {
+//             return null
+//         }
 
-        return user
-    }
+//         return client
+//     }
 
-}
+
+//     async create(data: Prisma.ClientCreateInput) {
+//         const user = {
+//             id: randomUUID(),
+//             name: data.name,
+
+//             created_at: new Date()
+//         }
+
+//         this.items.push(user)
+
+//         return user
+//     }
+
+// }
