@@ -13,7 +13,7 @@ export class PrismaClientsRepository implements ClientsRepository {
                 deleted: false
             },
             orderBy: {
-                createdAt: 'desc'
+                createdAt: 'asc'
             }
         })
 

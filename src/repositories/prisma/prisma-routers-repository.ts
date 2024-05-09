@@ -13,7 +13,7 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 deleted: false
             },
             orderBy: {
-                createdAt: 'desc'
+                createdAt: 'asc'
             }
         });
 
