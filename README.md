@@ -78,6 +78,10 @@ Digite no terminal:
 npx prisma generate
 ```
 
+```
+npm run elastic
+```
+
 
 Após isso, para criar o container Docker digite no terminal:
 
