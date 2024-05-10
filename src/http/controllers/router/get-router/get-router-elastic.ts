@@ -4,13 +4,13 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 interface Request {
     routerId: string
 }
-export async function getRouter(request: FastifyRequest, reply: FastifyReply) {
+export async function getRouterElastic(request: FastifyRequest, reply: FastifyReply) {
     const req = await request.params as Request;
     const routerId = req.routerId
 
-    const [getRouter, _] = makeGetRouterUseCase()
+    const [_, elasticGetRouter] = makeGetRouterUseCase()
 
-    const router = await getRouter.execute({
+    const router = await elasticGetRouter.execute({
         routerId
     })
 

@@ -4,13 +4,13 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 interface Request {
     addressId: string
 }
-export async function getAddress(request: FastifyRequest, reply: FastifyReply) {
+export async function getAddressElastic(request: FastifyRequest, reply: FastifyReply) {
     const req = await request.params as Request;
     const addressId = req.addressId
 
-    const [getAddress, _] = makeGetAddressUseCase()
+    const [_, elasticGetAddress] = makeGetAddressUseCase()
 
-    const address = await getAddress.execute({
+    const address = await elasticGetAddress.execute({
         addressId
     })
 

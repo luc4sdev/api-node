@@ -2,9 +2,9 @@ import { makeGetAllRoutersUseCase } from '@/use-cases/factories/router/make-get-
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 
-export async function getAllRouters(_: FastifyRequest, reply: FastifyReply) {
+export async function getAllRouters(__: FastifyRequest, reply: FastifyReply) {
 
-    const getAllRouters = makeGetAllRoutersUseCase()
+    const [getAllRouters, _] = makeGetAllRoutersUseCase()
 
     const routers = await getAllRouters.execute()
 

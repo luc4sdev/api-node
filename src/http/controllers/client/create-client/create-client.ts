@@ -25,9 +25,11 @@ export async function createClient(request: FastifyRequest, reply: FastifyReply)
 
     try {
 
-        const createClientUseCase = makeCreateClientUseCase()
+        const [createClientUseCase, elasticCreateClientUseCase] = makeCreateClientUseCase()
 
         const data = await createClientUseCase.execute({ name, type, document, birthDate, address })
+
+        await elasticCreateClientUseCase.execute({ name, type, document, birthDate, address })
 
         return reply.status(201).send(data.client)
 

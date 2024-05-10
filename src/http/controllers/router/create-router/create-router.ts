@@ -18,9 +18,11 @@ export async function createRouter(request: FastifyRequest, reply: FastifyReply)
 
     try {
 
-        const createRouterUseCase = makeCreateRouterUseCase()
+        const [createRouterUseCase, elasticCreateRouterUseCase] = makeCreateRouterUseCase()
 
         const data = await createRouterUseCase.execute({ ipAddress, ipv6Address, brand, model, clientsIds })
+
+        await elasticCreateRouterUseCase.execute({ ipAddress, ipv6Address, brand, model, clientsIds })
 
         return reply.status(201).send(data.router)
 

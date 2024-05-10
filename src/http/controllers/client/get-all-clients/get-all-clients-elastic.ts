@@ -2,11 +2,11 @@ import { makeGetAllClientsUseCase } from '@/use-cases/factories/client/make-get-
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 
-export async function getAllClients(__: FastifyRequest, reply: FastifyReply) {
+export async function getAllClientsElastic(__: FastifyRequest, reply: FastifyReply) {
 
-    const [getClient, _] = makeGetAllClientsUseCase()
+    const [_, elasticGetClient] = makeGetAllClientsUseCase()
 
-    const clients = await getClient.execute()
+    const clients = await elasticGetClient.execute()
 
     return reply.status(200).send(clients)
 }

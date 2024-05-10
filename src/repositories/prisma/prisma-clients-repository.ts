@@ -33,7 +33,6 @@ export class PrismaClientsRepository implements ClientsRepository {
 
 
     async create(clientToBeCreated: CreateClientUseCaseRequest): Promise<Client> {
-
         const addressExist = await prisma.address.findFirst({
             where: {
                 AND: [

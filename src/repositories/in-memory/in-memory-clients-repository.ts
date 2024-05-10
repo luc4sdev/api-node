@@ -27,7 +27,7 @@ export class InMemoryClientsRepository implements ClientsRepository {
 
 
     async create(data: CreateClientUseCaseRequest) {
-
+        console.log(data)
         const client = {
             id: randomUUID(),
             name: data.name,
