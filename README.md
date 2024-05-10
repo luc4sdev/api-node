@@ -6,6 +6,8 @@ O projeto foi desenvolvido com Typescript, NodeJS e Fastify.
 
 Para o banco de dados foi utilizada a ORM do Prisma e o Elasticsearch para aramazenar os dados, foi utilizado um container do Docker para fazer a instância do banco de dados.
 
+As rotas do Elasticsearch estão documentadas na API do Swagger, para fazer as requisições será necessário inserir o id do servidor, username e password nas variáveis de ambiente.
+
 Também foram realizados testes unitários e E2E e configurada sua execução no CI/CD para garantir a qualidade e robustez contínuas do código.
 
 Para a documentação da API foi utilizado o Swagger.
@@ -63,6 +65,10 @@ Primeiramente crie um arquivo ```.env``` na raíz do projeto e adicione as segui
 NODE_ENV=dev
 PORT="3333"
 DATABASE_URL="postgresql://docker:docker@localhost:5432/nodeapi?schema=public"
+
+ELASTIC_CLOUD_ID=""
+ELASTIC_USERNAME=""
+ELASTIC_PASSWORD=""
 ```
 
 
