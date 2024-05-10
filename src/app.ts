@@ -27,7 +27,9 @@ app.register(fastifySwaggerUi, {
     routePrefix: '/docs',
 })
 
-app.register(fastifyCors)
+app.register(fastifyCors, {
+    origin: 'https://routers-app-eta.vercel.app'
+})
 app.register(appRoutes)
 
 app.setErrorHandler((error, _, reply) => {

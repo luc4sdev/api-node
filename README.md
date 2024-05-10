@@ -1,7 +1,16 @@
 ## 💻 Routers App 
 
-<h4>O projeto consiste em um back-end de uma aplicação de gerenciamento de clientes e roteadores. O projeto foi desenvolvido com Typescript, NodeJS e Fastify.
-Para o banco de dados foi utilizada a orm do Prisma e o Elasticsearch para aramazenar os dados, foi utilizado um container do Docker para fazer a instância do banco de dados, também foram realizados testes unitários e E2E, para a documentação da API foi utilizado o Swagger, o deploy do back-end foi realizado no Render, onde a aplicação está funcional.</h4>
+O projeto consiste em um back-end de uma aplicação de gerenciamento de clientes e roteadores. 
+
+O projeto foi desenvolvido com Typescript, NodeJS e Fastify.
+
+Para o banco de dados foi utilizada a ORM do Prisma e o Elasticsearch para aramazenar os dados, foi utilizado um container do Docker para fazer a instância do banco de dados.
+
+Também foram realizados testes unitários e E2E e configurada sua execução no CI/CD para garantir a qualidade e robustez contínuas do código.
+
+Para a documentação da API foi utilizado o Swagger.
+
+O deploy do back-end foi realizado no Render, onde a aplicação está funcional.
 
 
 <br/>
@@ -19,8 +28,8 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * Você tem uma máquina `<Windows / Linux / Mac>`
 * Você instalou a versão mais recente do `NodeJS`
 * Você instalou a versão mais recente do `Docker`
-<br/>
 
+<br/>
 
 ## ⚙️ Instalando
 
@@ -41,6 +50,7 @@ pnpm:
 pnpm i
 ```
 
+<br/>
 <br/>
 
 ## 🚀 Rodando o projeto
@@ -66,7 +76,7 @@ Após isso, para criar o container Docker digite no terminal:
 ```
 docker compose up -d
 ```
-
+<br/>
 
 Para rodar o projeto digite no terminal:
 
@@ -85,11 +95,11 @@ pnpm run dev
 ```
 
 <br/>
-
+<br/>
 
 ## 🧪 Rodando os testes
 
-Foram realizados testes unitários e testes E2E, utilizando o vitest, para rodar os testes digite o seguinte comando no terminal:
+Foram realizados testes unitários e testes E2E, utilizando o vitest. Para rodar os ```testes unitários``` digite o seguinte comando no terminal:
 
 npm:
 ```
@@ -107,6 +117,49 @@ pnpm run test
 
 <br/>
 
+
+Para rodar os ```testes E2E``` digite o seguinte comando no terminal:
+
+npm:
+```
+npm run test:e2e
+```
+yarn:
+```
+yarn test:e2e
+```
+
+pnpm:
+```
+pnpm run test:e2e
+```
+
+<br/>
+<br/>
+
+## Features
+
+### Clientes
+
+- ✅ Um cliente está ativo somente quando está vinculado a um roteador.
+- ✅ Um cliente está vinculado apenas a 1 roteador.
+- ✅ Quando um cliente é deletado e ele é o único cadastrado no roteador, o mesmo é colocado como inativo.
+
+### Roteadores
+
+- ✅ Um roteador está ativo somente quando está vinculado a pelo menos um cliente.
+- ✅ Um roteador pode ter vários clientes cadastrados.
+- ✅ Quando um roteador é excluido, todos os clientes do mesmo são colocados como inativo.
+
+### Endereços
+
+- ✅ Um endereço pode ter vários clientes.
+
+
+<br/>
+
+
+
 ## 🚀 Tecnologias utilizadas
 
 O projeto está desenvolvido utilizando as seguintes tecnologias:
@@ -122,20 +175,3 @@ O projeto está desenvolvido utilizando as seguintes tecnologias:
 - Swagger <img width="25px" height="25px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg" />
 
 
-<br/>
-
-## Features
-
-### Clientes
-
-- ✅ Um cliente está ativo somente quando está vinculado a um roteador.
-- ✅ Um cliente está vinculado apenas a 1 roteador.
-
-### Roteadores
-
-- ✅ Um roteador está ativo somente quando está vinculado a pelo menos um cliente.
-- ✅ Um roteador pode ter vários clientes cadastrados.
-
-### Endereços
-
-- ✅ Um endereço pode ter vários clientes.
