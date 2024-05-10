@@ -28,7 +28,7 @@ app.register(fastifySwaggerUi, {
 })
 
 app.register(fastifyCors, {
-    origin: 'https://routers-app-eta.vercel.app'
+    origin: ['https://routers-app-eta.vercel.app', 'http://localhost:3000']
 })
 app.register(appRoutes)
 

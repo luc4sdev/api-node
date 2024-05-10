@@ -10,6 +10,8 @@ Também foram realizados testes unitários e E2E e configurada sua execução no
 
 Para a documentação da API foi utilizado o Swagger.
 
+O projeto segue as boas práticas de clean clode e princípios do SOLID, DDD e TDD.
+
 O deploy do back-end foi realizado no Render, onde a aplicação está funcional.
 
 
