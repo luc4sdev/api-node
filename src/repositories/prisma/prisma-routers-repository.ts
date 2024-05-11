@@ -5,7 +5,9 @@ import { CreateRouterUseCaseRequest } from "@/use-cases/router/create-router/cre
 import { UpdateRouterUseCaseRequest } from '@/use-cases/router/update-router/update-router';
 import { DeleteRouterUseCaseRequest } from '@/use-cases/router/delete-router/delete-router';
 import { Router } from '@prisma/client';
+import { getClient } from '@/lib/elasticsearch';
 
+const elasticClient = getClient()
 
 export class PrismaRoutersRepository implements RoutersRepository {
 
@@ -80,6 +82,12 @@ export class PrismaRoutersRepository implements RoutersRepository {
             }
         })
 
+        await elasticClient.index({
+            index: "routers",
+            id: router.id,
+            body: router,
+        });
+
         await prisma.client.updateMany({
             where: {
                 routerId: router.id
@@ -89,6 +97,23 @@ export class PrismaRoutersRepository implements RoutersRepository {
             }
         })
 
+        await elasticClient.updateByQuery({
+            index: 'clients',
+            body: {
+                script: {
+                    source: 'ctx._source.active = params.active',
+                    lang: 'painless',
+                    params: {
+                        active: true
+                    }
+                },
+                query: {
+                    term: {
+                        routerId: router.id
+                    }
+                }
+            }
+        });
 
         return router
     }
@@ -113,6 +138,21 @@ export class PrismaRoutersRepository implements RoutersRepository {
             }
         })
 
+        await elasticClient.update({
+            index: "routers",
+            id: router.id,
+            body: {
+                doc: {
+                    ipAddress: routerToBeUpdated.ipAddress,
+                    ipv6Address: routerToBeUpdated.ipv6Address,
+                    brand: routerToBeUpdated.brand,
+                    model: routerToBeUpdated.model,
+                    active: (routerToBeUpdated && routerToBeUpdated.clientsIds && routerToBeUpdated.clientsIds?.length > 0) ? true : false,
+                    clientsIds: routerToBeUpdated.clientsIds
+                },
+            },
+        });
+
         await prisma.client.updateMany({
             where: {
                 id: {
@@ -124,6 +164,31 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 active: true
             }
         })
+
+
+        if (routerToBeUpdated.clientsIds) {
+            await elasticClient.updateByQuery({
+                index: 'clients',
+                body: {
+                    script: {
+                        source: `
+                            ctx._source.routerId = params.routerId;
+                            ctx._source.active = params.active;
+                        `,
+                        lang: 'painless',
+                        params: {
+                            routerId: routerToBeUpdated.id,
+                            active: true
+                        }
+                    },
+                    query: {
+                        terms: {
+                            id: routerToBeUpdated.clientsIds
+                        }
+                    }
+                }
+            });
+        }
 
         const routersToUpdate = await prisma.router.findMany({
             where: {
@@ -145,6 +210,20 @@ export class PrismaRoutersRepository implements RoutersRepository {
                     active: false
                 }
             });
+
+            // await elasticClient.update({
+            //     index: "routers",
+            //     id: router.id,
+            //     body: {
+            //         script: {
+            //             source: "ctx._source.active = params.active",
+            //             lang: "painless",
+            //             params: {
+            //                 active: false
+            //             }
+            //         }
+            //     }
+            // });
         }
 
         await prisma.client.updateMany({
@@ -155,6 +234,33 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 active: false
             }
         })
+
+
+        await elasticClient.updateByQuery({
+            index: 'clients',
+            body: {
+                script: {
+                    source: `
+                        ctx._source.routerId = params.routerId;
+                        ctx._source.active = params.active;
+                    `,
+                    lang: 'painless',
+                    params: {
+                        routerId: 'null',
+                        active: false
+                    }
+                },
+                query: {
+                    bool: {
+                        must_not: {
+                            exists: {
+                                field: 'routerId'
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         return router
     }
@@ -192,6 +298,28 @@ export class PrismaRoutersRepository implements RoutersRepository {
             }
         });
 
+
+        await elasticClient.updateByQuery({
+            index: 'clients',
+            body: {
+                script: {
+                    source: `
+                        ctx._source.routerId = params.routerId;
+                        ctx._source.active = params.active;
+                    `,
+                    lang: 'painless',
+                    params: {
+                        active: false
+                    }
+                },
+                query: {
+                    terms: {
+                        id: clientIds
+                    }
+                }
+            }
+        });
+
         const deletedRouter = await prisma.router.update({
             where: {
                 id
@@ -201,6 +329,11 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 active: false
             }
         });
+
+        await elasticClient.delete({
+            index: 'routers',
+            id: id
+        })
 
         return deletedRouter;
     }

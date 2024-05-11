@@ -415,4 +415,5 @@ export async function appRoutes(app: FastifyInstance) {
             },
         }, getRouterElastic)
 
+
 }

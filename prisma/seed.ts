@@ -22,7 +22,7 @@ async function seed() {
         data: {
             name: 'John Doe',
             type: 'FISICA',
-            document: '71048770109',
+            document: '111.111.111-01',
             birthDate: '10-12-1992',
             addressId: address.id
         }
@@ -32,7 +32,7 @@ async function seed() {
         data: {
             name: faker.person.fullName(),
             type: 'FISICA',
-            document: '22222222222',
+            document: '222.222.222-02',
             birthDate: '10-12-1992',
             addressId: address.id
         }
@@ -42,7 +42,7 @@ async function seed() {
         data: {
             name: faker.person.fullName(),
             type: 'JURIDICA',
-            document: '71048770109',
+            document: '333.333.333-03',
             birthDate: '03-01-2002',
             addressId: address.id
         }

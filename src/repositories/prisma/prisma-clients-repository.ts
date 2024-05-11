@@ -4,7 +4,9 @@ import { ClientsRepository } from "../clients-repository";
 import { CreateClientUseCaseRequest } from "@/use-cases/client/create-client/create-client";
 import { UpdateClientUseCaseRequest } from "@/use-cases/client/update-client/update-client";
 import { DeleteClientUseCaseRequest } from "@/use-cases/client/delete-client/delete-client";
+import { getClient } from "@/lib/elasticsearch";
 
+const elasticClient = getClient()
 
 export class PrismaClientsRepository implements ClientsRepository {
 
@@ -31,6 +33,19 @@ export class PrismaClientsRepository implements ClientsRepository {
         return client
     }
 
+    async findByDocument(document: string): Promise<Client | null> {
+        const client = await prisma.client.findFirst({
+            where: {
+                AND: [
+                    { document },
+                    { deleted: false },
+                ],
+            },
+        })
+
+        return client
+    }
+
 
     async create(clientToBeCreated: CreateClientUseCaseRequest): Promise<Client> {
         const addressExist = await prisma.address.findFirst({
@@ -50,6 +65,12 @@ export class PrismaClientsRepository implements ClientsRepository {
                 data: clientToBeCreated.address
             })
 
+            await elasticClient.index({
+                index: "address",
+                id: address.id,
+                body: clientToBeCreated.address,
+            });
+
             const client = await prisma.client.create({
                 data: {
                     name: clientToBeCreated.name,
@@ -59,6 +80,12 @@ export class PrismaClientsRepository implements ClientsRepository {
                     addressId: address.id,
                 }
             })
+
+            await elasticClient.index({
+                index: "clients",
+                id: client.id,
+                body: client,
+            });
             return client
         }
 
@@ -72,6 +99,12 @@ export class PrismaClientsRepository implements ClientsRepository {
                 addressId: addressExist.id,
             }
         })
+
+        await elasticClient.index({
+            index: "clients",
+            id: client.id,
+            body: client,
+        });
 
         return client
     }
@@ -87,7 +120,7 @@ export class PrismaClientsRepository implements ClientsRepository {
 
 
 
-        await prisma.address.update({
+        const address = await prisma.address.update({
             where: {
                 id: clientExists?.addressId
             },
@@ -99,6 +132,20 @@ export class PrismaClientsRepository implements ClientsRepository {
                 city: clientToBeUpdated.address?.city,
             }
         })
+
+        await elasticClient.update({
+            index: "address",
+            id: address.id,
+            body: {
+                doc: {
+                    street: clientToBeUpdated.address?.street,
+                    number: clientToBeUpdated.address?.number,
+                    cep: clientToBeUpdated.address?.cep,
+                    neighborhood: clientToBeUpdated.address?.neighborhood,
+                    city: clientToBeUpdated.address?.city,
+                },
+            },
+        });
 
         const client = await prisma.client.update({
             where: {
@@ -112,6 +159,20 @@ export class PrismaClientsRepository implements ClientsRepository {
                 addressId: clientExists?.addressId,
             }
         })
+
+        await elasticClient.update({
+            index: "clients",
+            id: clientToBeUpdated.id,
+            body: {
+                doc: {
+                    name: clientToBeUpdated.name,
+                    type: clientToBeUpdated.type,
+                    document: clientToBeUpdated.document,
+                    birthDate: clientToBeUpdated.birthDate,
+                    addressId: clientExists?.addressId,
+                },
+            },
+        });
 
         return client
 
@@ -142,6 +203,11 @@ export class PrismaClientsRepository implements ClientsRepository {
             }
         });
 
+        await elasticClient.delete({
+            index: 'clients',
+            id: id
+        })
+
 
         if (routerId) {
 
@@ -161,6 +227,11 @@ export class PrismaClientsRepository implements ClientsRepository {
                         active: false
                     }
                 });
+
+                await elasticClient.delete({
+                    index: 'routers',
+                    id: routerId
+                })
             }
         }
 

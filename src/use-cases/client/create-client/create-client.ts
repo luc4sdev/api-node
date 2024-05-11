@@ -1,4 +1,5 @@
 import { ClientsRepository } from "@/repositories/clients-repository";
+import { ClientAlreadyExistsError } from "@/use-cases/errors/client-already-exists-error";
 import { Client } from "@prisma/client";
 
 export interface CreateClientUseCaseRequest {
@@ -25,6 +26,11 @@ export class CreateClientUseCase {
 
     async execute({ name, type, document, birthDate, address }: CreateClientUseCaseRequest): Promise<CreateClientUseCaseResponse> {
 
+        const clientWithSameDocument = await this.clientsRepository.findByDocument(document)
+
+        if (clientWithSameDocument) {
+            throw new ClientAlreadyExistsError()
+        }
 
         const client = await this.clientsRepository.create({ name, type, document, birthDate, address })
 

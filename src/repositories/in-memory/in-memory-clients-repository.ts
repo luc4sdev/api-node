@@ -25,6 +25,16 @@ export class InMemoryClientsRepository implements ClientsRepository {
         return this.items.filter(client => !client.deleted)
     }
 
+    async findByDocument(document: string): Promise<Client | null> {
+        const client = this.items.find(item => item.document === document && item.deleted === false)
+
+        if (!client) {
+            return null
+        }
+
+        return client
+    }
+
 
     async create(data: CreateClientUseCaseRequest) {
         console.log(data)
