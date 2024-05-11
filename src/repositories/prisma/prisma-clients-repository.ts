@@ -68,7 +68,7 @@ export class PrismaClientsRepository implements ClientsRepository {
             await elasticClient.index({
                 index: "address",
                 id: address.id,
-                body: clientToBeCreated.address,
+                body: address,
             });
 
             const client = await prisma.client.create({
@@ -84,7 +84,19 @@ export class PrismaClientsRepository implements ClientsRepository {
             await elasticClient.index({
                 index: "clients",
                 id: client.id,
-                body: client,
+                body: {
+                    id: client.id,
+                    name: clientToBeCreated.name,
+                    type: clientToBeCreated.type,
+                    document: clientToBeCreated.document,
+                    birthDate: clientToBeCreated.birthDate,
+                    addressId: address.id,
+                    routerId: client.routerId,
+                    active: client.active,
+                    deleted: client.deleted,
+                    createdAt: client.createdAt,
+                    updatedAt: client.updatedAt
+                },
             });
             return client
         }
@@ -103,7 +115,19 @@ export class PrismaClientsRepository implements ClientsRepository {
         await elasticClient.index({
             index: "clients",
             id: client.id,
-            body: client,
+            body: {
+                id: client.id,
+                name: clientToBeCreated.name,
+                type: clientToBeCreated.type,
+                document: clientToBeCreated.document,
+                birthDate: clientToBeCreated.birthDate,
+                addressId: addressExist.id,
+                routerId: client.routerId,
+                active: client.active,
+                deleted: client.deleted,
+                createdAt: client.createdAt,
+                updatedAt: client.updatedAt
+            },
         });
 
         return client
@@ -209,7 +233,7 @@ export class PrismaClientsRepository implements ClientsRepository {
         })
 
 
-        if (routerId) {
+        if (routerId !== null) {
 
             const clientsInRouter = await prisma.client.count({
                 where: {
@@ -227,11 +251,6 @@ export class PrismaClientsRepository implements ClientsRepository {
                         active: false
                     }
                 });
-
-                await elasticClient.delete({
-                    index: 'routers',
-                    id: routerId
-                })
             }
         }
 

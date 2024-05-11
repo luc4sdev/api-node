@@ -85,7 +85,18 @@ export class PrismaRoutersRepository implements RoutersRepository {
         await elasticClient.index({
             index: "routers",
             id: router.id,
-            body: router,
+            body: {
+                id: router.id,
+                ipAddress: routerToBeCreated.ipAddress,
+                ipv6Address: routerToBeCreated.ipv6Address,
+                brand: routerToBeCreated.brand,
+                model: routerToBeCreated.model,
+                active: router.active,
+                deleted: router.deleted,
+                clientsIds: routerToBeCreated.clientsIds,
+                createdAt: router.createdAt,
+                updatedAt: router.updatedAt,
+            },
         });
 
         await prisma.client.updateMany({
@@ -97,23 +108,29 @@ export class PrismaRoutersRepository implements RoutersRepository {
             }
         })
 
-        await elasticClient.updateByQuery({
-            index: 'clients',
-            body: {
-                script: {
-                    source: 'ctx._source.active = params.active',
-                    lang: 'painless',
-                    params: {
-                        active: true
-                    }
-                },
-                query: {
-                    term: {
-                        routerId: router.id
+        if (routerToBeCreated.clientsIds) {
+            await elasticClient.updateByQuery({
+                index: 'clients',
+                body: {
+                    script: {
+                        source: `
+                            ctx._source.routerId = params.routerId;
+                            ctx._source.active = params.active;
+                        `,
+                        lang: 'painless',
+                        params: {
+                            routerId: router.id,
+                            active: true
+                        }
+                    },
+                    query: {
+                        terms: {
+                            id: routerToBeCreated.clientsIds
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
         return router
     }
@@ -143,12 +160,16 @@ export class PrismaRoutersRepository implements RoutersRepository {
             id: router.id,
             body: {
                 doc: {
+                    id: router.id,
                     ipAddress: routerToBeUpdated.ipAddress,
                     ipv6Address: routerToBeUpdated.ipv6Address,
                     brand: routerToBeUpdated.brand,
                     model: routerToBeUpdated.model,
-                    active: (routerToBeUpdated && routerToBeUpdated.clientsIds && routerToBeUpdated.clientsIds?.length > 0) ? true : false,
-                    clientsIds: routerToBeUpdated.clientsIds
+                    active: router.active,
+                    deleted: router.deleted,
+                    clientsIds: routerToBeUpdated.clientsIds,
+                    createdAt: router.createdAt,
+                    updatedAt: router.updatedAt,
                 },
             },
         });
@@ -211,19 +232,6 @@ export class PrismaRoutersRepository implements RoutersRepository {
                 }
             });
 
-            // await elasticClient.update({
-            //     index: "routers",
-            //     id: router.id,
-            //     body: {
-            //         script: {
-            //             source: "ctx._source.active = params.active",
-            //             lang: "painless",
-            //             params: {
-            //                 active: false
-            //             }
-            //         }
-            //     }
-            // });
         }
 
         await prisma.client.updateMany({
@@ -304,7 +312,6 @@ export class PrismaRoutersRepository implements RoutersRepository {
             body: {
                 script: {
                     source: `
-                        ctx._source.routerId = params.routerId;
                         ctx._source.active = params.active;
                     `,
                     lang: 'painless',

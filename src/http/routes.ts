@@ -368,6 +368,7 @@ export async function appRoutes(app: FastifyInstance) {
             },
         }, getAddressElastic)
 
+
     app.withTypeProvider<ZodTypeProvider>().get(
         '/elastic/get-routers',
         {

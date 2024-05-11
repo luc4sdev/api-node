@@ -16,7 +16,7 @@ describe('Create Client (e2e)', () => {
             name: "John Doe",
             type: "FISICA",
             document: "123.123.123-12",
-            birthDate: "13/10/2002",
+            birthDate: "13-10-2002",
             address: {
                 street: "street 3",
                 number: "11",
@@ -34,7 +34,7 @@ describe('Create Client (e2e)', () => {
             name: "John Doe",
             type: "FISICA",
             document: "71012312303",
-            birthDate: "13/10/2002",
+            birthDate: "13-10-2002",
             address: {
                 street: "street 3",
                 number: "11",
@@ -48,7 +48,7 @@ describe('Create Client (e2e)', () => {
             name: "John Doe 2",
             type: "FISICA",
             document: "71012312303",
-            birthDate: "11/12/1992",
+            birthDate: "11-12-1992",
             address: {
                 street: "street 5",
                 number: "52",
