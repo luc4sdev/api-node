@@ -8,7 +8,7 @@ Para o banco de dados foi utilizada a ORM do Prisma e o Elasticsearch para arama
 
 As rotas do Elasticsearch estão documentadas na API do Swagger, para fazer as requisições será necessário inserir o id do servidor, username e password nas variáveis de ambiente.
 
-Também foram realizados testes unitários e E2E e configurada sua execução no CI/CD para garantir a qualidade e robustez contínuas do código.
+Também foram realizados testes unitários e E2E e configurada sua execução no CI/CD para garantir a qualidade e robustez contínuas do código. Para os testes E2E funcionarem é preciso inserir as credenciais do Elasticsearch nas variáveis de ambiente.
 
 Para a documentação da API foi utilizado o Swagger.
 
@@ -156,6 +156,7 @@ pnpm run test:e2e
 - ✅ Um cliente está ativo somente quando está vinculado a um roteador.
 - ✅ Um cliente está vinculado apenas a 1 roteador.
 - ✅ Quando um cliente é deletado e ele é o único cadastrado no roteador, o mesmo é colocado como inativo.
+- ✅ Não pode haver mais de um cliente com o mesmo CPF/CNPJ.
 
 ### Roteadores
 
