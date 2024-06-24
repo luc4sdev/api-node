@@ -8,7 +8,7 @@ export async function getAddress(request: FastifyRequest, reply: FastifyReply) {
     const req = await request.params as Request;
     const addressId = req.addressId
 
-    const [getAddress, _] = makeGetAddressUseCase()
+    const getAddress = makeGetAddressUseCase()
 
     const address = await getAddress.execute({
         addressId

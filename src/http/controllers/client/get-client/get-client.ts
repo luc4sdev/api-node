@@ -9,7 +9,7 @@ export async function getClient(request: FastifyRequest, reply: FastifyReply) {
     const req = await request.params as Request;
     const clientId = req.clientId
 
-    const [getClient, _] = makeGetClientUseCase()
+    const getClient = makeGetClientUseCase()
 
     const client = await getClient.execute({
         clientId

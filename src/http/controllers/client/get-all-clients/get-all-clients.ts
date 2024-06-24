@@ -4,7 +4,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function getAllClients(__: FastifyRequest, reply: FastifyReply) {
 
-    const [getClient, _] = makeGetAllClientsUseCase()
+    const getClient = makeGetAllClientsUseCase()
 
     const clients = await getClient.execute()
 

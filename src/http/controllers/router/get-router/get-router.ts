@@ -8,7 +8,7 @@ export async function getRouter(request: FastifyRequest, reply: FastifyReply) {
     const req = await request.params as Request;
     const routerId = req.routerId
 
-    const [getRouter, _] = makeGetRouterUseCase()
+    const getRouter = makeGetRouterUseCase()
 
     const router = await getRouter.execute({
         routerId

@@ -4,7 +4,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function getAllRouters(__: FastifyRequest, reply: FastifyReply) {
 
-    const [getAllRouters, _] = makeGetAllRoutersUseCase()
+    const getAllRouters = makeGetAllRoutersUseCase()
 
     const routers = await getAllRouters.execute()
 
